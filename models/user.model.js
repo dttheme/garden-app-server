@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 mongoose.Promise = global.Promise;
 
@@ -25,12 +26,23 @@ userSchema.methods.serialize = function() {
   };
 };
 
-userSchema.methods.validatePassword = function(password) {
-  return bcrypt.compare(password, this.password);
-};
+userSchema.pre('save', function userPreSave(next) {
+  const user = this;
+  if (this.isModified('password') || this.isNew) {
+    return bcrypt.hash(user.password, 10)
+      .then((hash) => {
+        user.password = hash;
+        return next();
+      })
+      .catch(error => next(error));
+  }
+  return next();
+})
 
-userSchema.statics.hashPassword = function(password) {
-  return bcrypt.hash(password, 10);
+userSchema.plugin(uniqueValidator);
+
+userSchema.methods.validatePassword = function userValidatePassword(password) {
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model('User', userSchema);

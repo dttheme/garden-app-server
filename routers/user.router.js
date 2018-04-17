@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-const disableWithToken = require('../middleware/disableWithToken').disableWithToken;
-const requiredFields = require('../middleware/requiredFields');
+const disableWithToken = require('../middleware/disableWithToken.middleware').disableWithToken;
+const requiredFields = require('../middleware/requiredFields.middleware');
 const { User } = require('../models/user.model');
-const localStrategy = require('../auth/strategies');
+const localStrategy = require('../auth/jwt.strategy');
 
 const router = express.Router();
 
@@ -25,6 +25,7 @@ router.route('/')
     .catch(error => {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
+    })
   })
 
   .get(passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -34,5 +35,6 @@ router.route('/')
       res.status(500).json({ message: 'Internal server error' });
     });
   });
+
 
   module.exports = { router };
