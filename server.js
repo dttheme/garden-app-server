@@ -9,8 +9,8 @@ const app = express();
 
 const { PORT , DATABASE_URL } = require('./config');
 
-const { Plant } = require('./plant.model.js');
-const { User } = require('./user.model.js');
+const { Plant } = require('./models/plant.model.js');
+const { User } = require('./models/user.model.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

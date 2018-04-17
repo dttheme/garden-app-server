@@ -7,7 +7,7 @@ const plantSchema = mongoose.Schema({
   date: Date,
   number: Number,
   location: String,
-  water: { type: String, possibleValues: [`once a day`, `once a week`, `once a month`]}
+  water: { type: String, possibleValues: [`once a day`, `once a week`, `once a month`]},
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, {timestamps: true}
 );
