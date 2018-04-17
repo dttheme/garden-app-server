@@ -8,6 +8,12 @@ mongoose.Promise = global.Promise;
 
 const { Plant } = require('../models/plant.model');
 
+const dummyDb =
+[{type: "Oregano", date: "03/15/18", number: 3, location: "patio", water: "once a week"},
+{type: "Tomato", date: "02/02/18", number: 5, location: "backyard", water: "once a day"},
+{type: "Succulents", date: "01/23/15", number: 1, location: "kitchen window", water: "once a month"}
+];
+
 router.get('/', (req, res) => {
   Plant
     .find({author: req.user._id})

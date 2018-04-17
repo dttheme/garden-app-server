@@ -8,8 +8,9 @@ const plantSchema = mongoose.Schema({
   number: Number,
   location: String,
   water: { type: String, possibleValues: [`once a day`, `once a week`, `once a month`]},
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-}, {timestamps: true}
+  // author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+},
+  {timestamps: true}
 );
 
 const Plant = mongoose.model('Plant', plantSchema);
