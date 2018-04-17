@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/dttheme/garden-app-server#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
     "mongoose": "^5.0.15",
     "morgan": "^1.9.0",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
   }
 }
