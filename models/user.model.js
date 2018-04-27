@@ -41,10 +41,8 @@ userSchema.pre('save', function userPreSave(next) {
 
 userSchema.plugin(uniqueValidator);
 
-userSchema.methods.validatePassword = function userValidatePassword(password) {
+userSchema.methods.comparePassword = function comparePassword(password) {
   return bcrypt.compare(password, this.password);
 };
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = { User };
+module.exports = mongoose.model('User', userSchema);

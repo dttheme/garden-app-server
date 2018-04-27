@@ -14,7 +14,7 @@ module.exports = (passport) => {
         const userData = {
           _id: user._id,
           firstName: user.firstName,
-          username: user.firstName
+          username: user.username
         };
         done(null, userData);
       } else {

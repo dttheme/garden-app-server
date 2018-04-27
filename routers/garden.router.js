@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 mongoose.Promise = global.Promise;
 
@@ -14,25 +16,26 @@ const dummyDb =
 {type: "Succulents", date: "01/23/15", number: 1, location: "kitchen window", water: "once a month"}
 ];
 
-router.get('/', (req, res) => {
+//TODO add JWT to endpoints
+router.get('/', jwtAuth, (req, res) => {
   Plant
     .find({author: req.user._id})
     .sort({createdAt: 'desc'})
-    .then(plants = res.json(plants))
+    .then(plants => res.json(plants))
     .catch(error => {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', jwtAuth, (req, res) => {
   Plant
     .create({
-      type: req.body.type,
-      date: req.body.date,
-      number: req.body.number,
-      location: req.body.location,
-      water: req.body.water,
+      plantName: req.body.plantName,
+      plantDate: req.body.plantDate,
+      numberPlanted: req.body.numberPlanted,
+      plantLocation: req.body.plantLocation,
+      waterFrequency: req.body.waterFrequency,
       author: req.user._id
     })
     .then(plant => res.status(201).json(plant))
@@ -42,7 +45,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id' ,jwtAuth, (req, res) => {
   const toUpdate = {};
   const updateableFields = ['type', 'date', 'number', 'location', 'water'];
   updateableFields.forEach(field => {
@@ -58,7 +61,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/;id',(req, res) => {
+router.delete('/;id', jwtAuth, (req, res) => {
   Plant
     .findByIdAndRemove(req.params.id)
     .then(plant => res.status(204).end())

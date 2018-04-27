@@ -3,12 +3,12 @@
 const mongoose = require('mongoose');
 
 const plantSchema = mongoose.Schema({
-  type: String,
-  date: Date,
-  number: Number,
-  location: String,
-  water: { type: String, possibleValues: [`once a day`, `once a week`, `once a month`]},
-  // author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  plantName: String,
+  plantDate: String,
+  numberPlanted: Number,
+  plantLocation: String,
+  waterFrequency: { type: String, possibleValues: [`once a day`, `once a week`, `once a month`]},
+  author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 },
   {timestamps: true}
 );
