@@ -31,7 +31,7 @@ router.route('/')
         if (!foundResult) {
           console.log("something")
             return res.status(400).json({
-                generalMessage: 'Email or password is incorrect',
+                message: 'Email or password is incorrect',
             });
         } else {
           return foundResult;
@@ -42,18 +42,22 @@ router.route('/')
         .then((comparingResult) => {
             if (!comparingResult) {
                 return res.status(400).json({
-                    generalMessage: 'Email or password is incorrect',
+                    message: 'Email or password is incorrect',
                 });
             }
             const tokenPayload = {
                 _id: foundUser._id,
                 username: foundUser.username,
-                username: foundUser.username,
+                firstName: foundUser.firstName,
             };
             const token = jwt.sign(tokenPayload, config.JWT_SECRET, {
                 expiresIn: config.JWT_EXPIRY,
             });
-            return res.json({ token: `Bearer ${token}` });
+            return res.json({
+              username: foundUser.username,
+              firstName: foundUser.firstName,
+              token: `Bearer ${token}`
+            });
         });
     })
     .catch(error => {

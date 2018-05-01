@@ -28,6 +28,16 @@ router.get('/', jwtAuth, (req, res) => {
     });
 });
 
+router.get('/:id', jwtAuth, (req, res) => {
+  Plant
+    .findById(req.params.id)
+    .then(plant => res.json(plant))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+})
+
 router.post('/', jwtAuth, (req, res) => {
   Plant
     .create({
@@ -61,10 +71,10 @@ router.put('/:id' ,jwtAuth, (req, res) => {
     });
 });
 
-router.delete('/;id', jwtAuth, (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
   Plant
     .findByIdAndRemove(req.params.id)
-    .then(plant => res.status(204).end())
+    .then(plant => res.status(200).json({_id: req.params.id}))
     .catch(error =>{
       res.status(500).json({ message: 'Internal server error' });
     });
